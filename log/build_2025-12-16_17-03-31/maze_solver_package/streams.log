@@ -1,0 +1,42 @@
+[1.143s] Invoking command in '/home/miche658/CSCI4551/project/src/maze_solver_package': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/miche658/CSCI4551/project/build/maze_solver_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/miche658/CSCI4551/project/install/maze_solver_package/lib/python3.12/site-packages:${PYTHONPATH} _=/usr/bin/env /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/maze_solver_package build --build-base /home/miche658/CSCI4551/project/build/maze_solver_package/build install --record /home/miche658/CSCI4551/project/build/maze_solver_package/install.log --single-version-externally-managed install_data
+[1.485s] running egg_info
+[1.485s] creating ../../build/maze_solver_package/maze_solver_package.egg-info
+[1.514s] writing ../../build/maze_solver_package/maze_solver_package.egg-info/PKG-INFO
+[1.523s] writing dependency_links to ../../build/maze_solver_package/maze_solver_package.egg-info/dependency_links.txt
+[1.527s] writing entry points to ../../build/maze_solver_package/maze_solver_package.egg-info/entry_points.txt
+[1.531s] writing requirements to ../../build/maze_solver_package/maze_solver_package.egg-info/requires.txt
+[1.534s] writing top-level names to ../../build/maze_solver_package/maze_solver_package.egg-info/top_level.txt
+[1.539s] writing manifest file '../../build/maze_solver_package/maze_solver_package.egg-info/SOURCES.txt'
+[1.654s] [2;36m[12/16/25 17:03:33][0m[2;36m [0m[1;31mERROR   [0m listing git files failed - pretending there aren't any                                              ]8;id=246329;file:///usr/lib/python3/dist-packages/setuptools_scm/_file_finders/git.py\[2mgit.py[0m]8;;\[2m:[0m]8;id=504024;file:///usr/lib/python3/dist-packages/setuptools_scm/_file_finders/git.py#24\[2m24[0m]8;;\
+[1.798s] reading manifest file '../../build/maze_solver_package/maze_solver_package.egg-info/SOURCES.txt'
+[1.801s] adding license file 'LICENSE'
+[1.801s] writing manifest file '../../build/maze_solver_package/maze_solver_package.egg-info/SOURCES.txt'
+[1.805s] running build
+[1.805s] running build_py
+[1.806s] creating /home/miche658/CSCI4551/project/build/maze_solver_package/build
+[1.807s] creating /home/miche658/CSCI4551/project/build/maze_solver_package/build/lib
+[1.809s] creating /home/miche658/CSCI4551/project/build/maze_solver_package/build/lib/maze_solver_package
+[1.812s] copying maze_solver_package/__init__.py -> /home/miche658/CSCI4551/project/build/maze_solver_package/build/lib/maze_solver_package
+[1.817s] copying maze_solver_package/maze_solver_node.py -> /home/miche658/CSCI4551/project/build/maze_solver_package/build/lib/maze_solver_package
+[1.824s] running install
+[1.830s] running install_lib
+[1.860s] creating /home/miche658/CSCI4551/project/install/maze_solver_package/lib/python3.12/site-packages/maze_solver_package
+[1.862s] copying /home/miche658/CSCI4551/project/build/maze_solver_package/build/lib/maze_solver_package/__init__.py -> /home/miche658/CSCI4551/project/install/maze_solver_package/lib/python3.12/site-packages/maze_solver_package
+[1.869s] copying /home/miche658/CSCI4551/project/build/maze_solver_package/build/lib/maze_solver_package/maze_solver_node.py -> /home/miche658/CSCI4551/project/install/maze_solver_package/lib/python3.12/site-packages/maze_solver_package
+[1.878s] byte-compiling /home/miche658/CSCI4551/project/install/maze_solver_package/lib/python3.12/site-packages/maze_solver_package/__init__.py to __init__.cpython-312.pyc
+[1.888s] byte-compiling /home/miche658/CSCI4551/project/install/maze_solver_package/lib/python3.12/site-packages/maze_solver_package/maze_solver_node.py to maze_solver_node.cpython-312.pyc
+[1.901s] running install_data
+[1.902s] creating /home/miche658/CSCI4551/project/install/maze_solver_package/share/ament_index
+[1.902s] creating /home/miche658/CSCI4551/project/install/maze_solver_package/share/ament_index/resource_index
+[1.904s] creating /home/miche658/CSCI4551/project/install/maze_solver_package/share/ament_index/resource_index/packages
+[1.908s] copying resource/maze_solver_package -> /home/miche658/CSCI4551/project/install/maze_solver_package/share/ament_index/resource_index/packages
+[1.913s] copying package.xml -> /home/miche658/CSCI4551/project/install/maze_solver_package/share/maze_solver_package
+[1.920s] creating /home/miche658/CSCI4551/project/install/maze_solver_package/share/maze_solver_package/launch
+[1.922s] copying launch/launch_file.py -> /home/miche658/CSCI4551/project/install/maze_solver_package/share/maze_solver_package/launch
+[1.931s] creating /home/miche658/CSCI4551/project/install/maze_solver_package/share/maze_solver_package/videos
+[1.932s] running install_egg_info
+[1.961s] Copying ../../build/maze_solver_package/maze_solver_package.egg-info to /home/miche658/CSCI4551/project/install/maze_solver_package/lib/python3.12/site-packages/maze_solver_package-0.0.0-py3.12.egg-info
+[2.037s] running install_scripts
+[2.226s] Installing maze_solver_node script to /home/miche658/CSCI4551/project/install/maze_solver_package/lib/visual_ackermann_package
+[2.232s] writing list of installed files to '/home/miche658/CSCI4551/project/build/maze_solver_package/install.log'
+[2.266s] Invoked command in '/home/miche658/CSCI4551/project/src/maze_solver_package' returned '0': DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PYTHONPATH=/home/miche658/CSCI4551/project/build/maze_solver_package/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/miche658/CSCI4551/project/install/maze_solver_package/lib/python3.12/site-packages:${PYTHONPATH} _=/usr/bin/env /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../../build/maze_solver_package build --build-base /home/miche658/CSCI4551/project/build/maze_solver_package/build install --record /home/miche658/CSCI4551/project/build/maze_solver_package/install.log --single-version-externally-managed install_data

@@ -1,0 +1,37 @@
+-- The C compiler identification is GNU 13.3.0
+-- The CXX compiler identification is GNU 13.3.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 2.5.4 (/opt/ros/jazzy/share/ament_cmake/cmake)
+-- Found Python3: /usr/bin/python3 (found version "3.12.3") found components: Interpreter 
+-- Configuring done (1.9s)
+-- Generating done (0.2s)
+-- Build files have been written to: /home/miche658/CSCI4551/project/build/maze_bringup_package
+-- Install configuration: ""
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/launch
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/launch/single_robot_launch.py
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/worlds
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/worlds/maze.world
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/ament_index/resource_index/package_run_dependencies/maze_bringup_package
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/ament_index/resource_index/parent_prefix_path/maze_bringup_package
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/environment/ament_prefix_path.sh
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/environment/ament_prefix_path.dsv
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/environment/path.sh
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/environment/path.dsv
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/local_setup.bash
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/local_setup.sh
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/local_setup.zsh
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/local_setup.dsv
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/package.dsv
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/ament_index/resource_index/packages/maze_bringup_package
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/cmake/maze_bringup_packageConfig.cmake
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/cmake/maze_bringup_packageConfig-version.cmake
+-- Installing: /home/miche658/CSCI4551/project/install/maze_bringup_package/share/maze_bringup_package/package.xml

@@ -18,6 +18,9 @@ setup(
         ('share/' + package_name + '/launch', [
             'launch/single_robot_launch.py',
         ]),
+        ('share/' + package_name + '/launch', [
+            'launch/single_robot_slam.launch.py',
+        ]),
         (os.path.join('share', package_name, 'config'), glob('config/*')),
         (os.path.join('share', package_name, 'worlds'), glob('worlds/*')),
     ],

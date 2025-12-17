@@ -29,7 +29,10 @@ def generate_launch_description():
     
     # Launch Gazebo and Turtlebot:
     gazebo_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(gazebo_dir, 'launch', 'turtlebot3_world.launch.py')), launch_arguments={'world': world_file}.items())
+        PythonLaunchDescriptionSource(
+            os.path.join(gazebo_dir, 'launch', 
+                         'turtlebot3_world.launch.py')), 
+        launch_arguments={'world': world_file}.items())
 
     # Launch the Maze Solver node:
     maze_solver_node = Node(

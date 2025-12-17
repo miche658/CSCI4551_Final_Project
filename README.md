@@ -67,6 +67,12 @@ Run Coordination Node
 ros2 run coordination_node coordinator
 ```
 
+Showing the map
+Run in separate terminal
+```
+rviz2
+```
+then add by topic, map and laser scan
 ## Features
 
 - Autonomous SLAM based mapping

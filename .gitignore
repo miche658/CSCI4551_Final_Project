@@ -1,0 +1,40 @@
+# ROS 2 / colcon
+build/
+install/
+log/
+
+# venv
+.venv
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+
+# Gazebo
+*.log
+*.db
+.world.backup
+gazebo/
+
+# RViz
+*.rviz
+
+# IDE / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Bag files
+*.bag
+*.db3
+
+# Temporary files 
+*.tmp
+*.bak
+*~

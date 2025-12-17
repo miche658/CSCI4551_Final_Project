@@ -13,11 +13,13 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch.substitutions import LaunchConfiguration
 from launch_ros.substitutions import FindPackageShare
+from ament_index_python.packages import get_package_share_directory
 import os
 
 def generate_launch_description():
     # Get package directory:
-    gazebo_pkg = FindPackageShare('turtlebot3_gazebo').find('turtlebot3_gazebo')
+    gazebo_dir = get_package_share_directory("turtlebot3_gazebo")
+
     maze_bringup_pkg = FindPackageShare('maze_bringup_package').find('maze_bringup_package')
     
     # Use simulation time:
@@ -27,21 +29,21 @@ def generate_launch_description():
     
     # Launch Gazebo and Turtlebot:
     gazebo_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(os.path.join(turtlebot3_gazebo_pkg, 'launch', 'turtlebot3_world.launch.py')), launch_arguments={'world': world_file}.items())
+        PythonLaunchDescriptionSource(os.path.join(gazebo_dir, 'launch', 'turtlebot3_world.launch.py')), launch_arguments={'world': world_file}.items())
 
     # Launch the Maze Solver node:
     maze_solver_node = Node(
-        package='turtlebot3_maze_solver',
+        package='maze_solver_package',
         executable='maze_solver_node',
         name='maze_solver',
         output='screen',
-        parameters=[{'use_sim_time': use_sim_time}]
+        parameters=[{'use_sim_time': sim_time}]
     )
     
     return LaunchDescription([
         # Gazebo:
-        gazebo_launch
+        gazebo_launch,
         # Maze Solver Node:
-        maze_solver_node
+        maze_solver_node,
     ])
 

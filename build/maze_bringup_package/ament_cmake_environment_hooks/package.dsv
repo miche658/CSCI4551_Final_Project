@@ -1,4 +1,0 @@
-source;share/maze_bringup_package/local_setup.bash
-source;share/maze_bringup_package/local_setup.dsv
-source;share/maze_bringup_package/local_setup.sh
-source;share/maze_bringup_package/local_setup.zsh

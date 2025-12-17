@@ -15,10 +15,10 @@ def generate_launch_description():
     # Get package directories
     tb3_gazebo_share = get_package_share_directory("turtlebot3_gazebo")
     tb3_description_share = get_package_share_directory("turtlebot3_description")
+    maze_bringup_share = get_package_share_directory("maze_bringup_package")
     
-    # Launch Gazebo Harmonic - use robot_state_publisher.launch to avoid auto-spawn
-    # Or directly launch gz sim without turtlebot launch files
-    world_file = "/home/miche658/maze_harmonic.sdf"  # Your custom world
+    # Launch Gazebo Harmonic with world file from package
+    world_file = os.path.join(maze_bringup_share, "worlds", "maze_harmonic.sdf")
     gazebo_launch = ExecuteProcess(
         cmd=['gz', 'sim', '-r', world_file],
         output='screen'
@@ -54,7 +54,7 @@ def generate_launch_description():
     
     # Robot 1 - spawn in Gazebo Harmonic
     spawn_robot1 = ExecuteProcess(
-        cmd=['bash', '-c', 'sleep 2 && ros2 run ros_gz_sim create -name tb3_0 -topic /tb3_0/robot_description -x -4.5 -y -6.0 -z 0.01'],
+        cmd=['bash', '-c', 'sleep 2 && ros2 run ros_gz_sim create -name tb3_0 -topic /tb3_0/robot_description -x -6.0 -y -4.5 -z 0.01'],
         output='screen'
     )
     
@@ -78,7 +78,7 @@ def generate_launch_description():
     
     # Robot 2 - spawn in Gazebo Harmonic with delay
     spawn_robot2 = ExecuteProcess(
-        cmd=['bash', '-c', 'sleep 5 && ros2 run ros_gz_sim create -name tb3_1 -topic /tb3_1/robot_description -x -4.5 -y -7.0 -z 0.01'],
+        cmd=['bash', '-c', 'sleep 5 && ros2 run ros_gz_sim create -name tb3_1 -topic /tb3_1/robot_description -x -7.0 -y -4.5 -z 0.01'],
         output='screen'
     )
     

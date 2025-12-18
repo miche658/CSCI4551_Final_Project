@@ -14,7 +14,7 @@ def generate_launch_description():
     
     # Get package directories
     tb3_gazebo_share = get_package_share_directory("turtlebot3_gazebo")
-    tb3_description_share = get_package_share_directory("turtlebot3_description")
+    robot_description_share = get_package_share_directory("robot_description")
     maze_bringup_share = get_package_share_directory("maze_bringup_package")
     
     # Launch Gazebo Harmonic with world file from package
@@ -28,7 +28,7 @@ def generate_launch_description():
     model = os.environ.get('TURTLEBOT3_MODEL', 'waffle')
     
     # Get URDF file path
-    urdf_file = os.path.join(tb3_description_share, 'urdf', f'turtlebot3_{model}.urdf')
+    urdf_file = os.path.join(robot_description_share, 'urdf', f'turtlebot3_{model}.urdf')
     
     # Read URDF
     with open(urdf_file, 'r') as file:
@@ -86,12 +86,13 @@ def generate_launch_description():
     bridge_1 = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
+        name='ros_gz_bridge_tb3_0',
+        namespace='tb3_0',
         arguments=[
             '/model/tb3_0/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
             '/model/tb3_0/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry',
             '/model/tb3_0/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
             '/model/tb3_0/imu@sensor_msgs/msg/Imu@gz.msgs.IMU',
-            '/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock'
         ],
         output='screen',
         remappings=[
@@ -106,7 +107,9 @@ def generate_launch_description():
     bridge_2 = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
-        arguments=[
+        name='ros_gz_bridge_tb3_1',
+        namespace='tb3_1',
+         arguments=[
             '/model/tb3_1/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
             '/model/tb3_1/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry',
             '/model/tb3_1/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
@@ -141,7 +144,11 @@ def generate_launch_description():
                 "base_frame": "tb3_0/base_footprint",
                 "scan_topic": "/tb3_0/scan"
             }
-        ]
+        ],
+        remappings=[
+            ("/map", "/tb3_0/map"),
+            ("/map_metadata", "/tb3_0/map_metadata"),
+        ],
     )
     
     # SLAM for Robot 2
@@ -160,7 +167,11 @@ def generate_launch_description():
                 "base_frame": "tb3_1/base_footprint",
                 "scan_topic": "/tb3_1/scan"
             }
-        ]
+        ],
+        remappings=[
+            ("/map", "/tb3_1/map"),
+            ("/map_metadata", "/tb3_1/map_metadata"),
+        ],
     )
     
     # Lifecycle managers
@@ -189,7 +200,20 @@ def generate_launch_description():
             'node_names': ['slam_toolbox'],
         }],
     )
-    
+    clock_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        name='clock_bridge',
+        output='screen',
+        arguments=['/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'],
+        parameters=[{
+            'qos_overrides./clock.publisher.reliability': 'best_effort',
+            'qos_overrides./clock.publisher.durability': 'volatile',
+            'qos_overrides./clock.publisher.history': 'keep_last',
+            'qos_overrides./clock.publisher.depth': 10,
+        }],
+    )
+
     return LaunchDescription([
         declare_use_sim_time,
         gazebo_launch,
@@ -199,6 +223,7 @@ def generate_launch_description():
         spawn_robot2,
         bridge_1,
         bridge_2,
+        clock_bridge,
         slam_node_1,
         slam_node_2,
         lifecycle_manager_1,

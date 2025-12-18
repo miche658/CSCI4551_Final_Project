@@ -52,6 +52,7 @@ Running the Project
 Launch Single Robot (Testing)
 
 ```
+pkill -f "gz sim" || true
 ros2 launch multirobot_bringup single_robot.launch.py
 ```
 

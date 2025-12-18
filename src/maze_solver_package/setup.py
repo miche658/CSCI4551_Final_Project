@@ -29,6 +29,7 @@ setup(
     entry_points={
         'console_scripts': [
             'maze_solver_node = maze_solver_package.maze_solver_node:main',
+            'simple_drive = maze_solver_package.simple_drive:main',
         ],
     },
 )

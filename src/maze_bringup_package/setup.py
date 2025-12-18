@@ -24,6 +24,7 @@ setup(
         (os.path.join('share', package_name, 'config'), glob('config/*')),
         (os.path.join('share', package_name, 'worlds'), glob('worlds/*')),
         (os.path.join('share', package_name, 'maps'), glob('maps/*')),
+        (os.path.join('share', package_name, 'models/turtlebot3_waffle'), glob('modles/turtlebot3_waffle/*'))
     ],
     install_requires=['setuptools'],
     zip_safe=True,

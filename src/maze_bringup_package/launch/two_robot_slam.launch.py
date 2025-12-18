@@ -14,7 +14,7 @@ def generate_launch_description():
     
     # Get package directories
     tb3_gazebo_share = get_package_share_directory("turtlebot3_gazebo")
-    tb3_description_share = get_package_share_directory("turtlebot3_description")
+    #tb3_description_share = get_package_share_directory("turtlebot3_description")
     maze_bringup_share = get_package_share_directory("maze_bringup_package")
     
     # Launch Gazebo Harmonic with world file from package
@@ -25,10 +25,10 @@ def generate_launch_description():
     )
     
     # Get model name from environment
-    model = os.environ.get('TURTLEBOT3_MODEL', 'waffle')
+    model = os.environ.get('TURTLEBOT3_MODEL', 'burger')
     
     # Get URDF file path
-    urdf_file = os.path.join(tb3_description_share, 'urdf', f'turtlebot3_{model}.urdf')
+    urdf_file = os.path.join(tb3_gazebo_share, 'models', f'turtlebot3_{model}', 'model.sdf')
     
     # Read URDF
     with open(urdf_file, 'r') as file:
@@ -54,7 +54,7 @@ def generate_launch_description():
     
     # Robot 1 - spawn in Gazebo Harmonic
     spawn_robot1 = ExecuteProcess(
-        cmd=['bash', '-c', 'sleep 2 && ros2 run ros_gz_sim create -name tb3_0 -topic /tb3_0/robot_description -x -6.0 -y -4.5 -z 0.01'],
+        cmd=['bash', '-c', 'sleep 5 && ros2 run ros_gz_sim create -name tb3_0 -topic /tb3_0/robot_description -x -6.0 -y -4.5 -z 0.01'],
         output='screen'
     )
     
@@ -78,7 +78,7 @@ def generate_launch_description():
     
     # Robot 2 - spawn in Gazebo Harmonic with delay
     spawn_robot2 = ExecuteProcess(
-        cmd=['bash', '-c', 'sleep 5 && ros2 run ros_gz_sim create -name tb3_1 -topic /tb3_1/robot_description -x -7.0 -y -4.5 -z 0.01'],
+        cmd=['bash', '-c', 'sleep 8 && ros2 run ros_gz_sim create -name tb3_1 -topic /tb3_1/robot_description -x -7.0 -y -4.5 -z 0.01'],
         output='screen'
     )
     
@@ -87,11 +87,11 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
-            '/model/tb3_0/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
-            '/model/tb3_0/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry',
-            '/model/tb3_0/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
-            '/model/tb3_0/imu@sensor_msgs/msg/Imu@gz.msgs.IMU',
-            '/clock@rosgraph_msgs/msg/Clock@gz.msgs.Clock'
+            '/model/tb3_0/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            '/model/tb3_0/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+            '/model/tb3_0/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            '/model/tb3_0/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
+            '/clock@rosgraph_msgs/msg/Clock[gz.msgs.Clock'
         ],
         output='screen',
         remappings=[
@@ -107,10 +107,10 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=[
-            '/model/tb3_1/cmd_vel@geometry_msgs/msg/Twist@gz.msgs.Twist',
-            '/model/tb3_1/odometry@nav_msgs/msg/Odometry@gz.msgs.Odometry',
-            '/model/tb3_1/scan@sensor_msgs/msg/LaserScan@gz.msgs.LaserScan',
-            '/model/tb3_1/imu@sensor_msgs/msg/Imu@gz.msgs.IMU',
+            '/model/tb3_1/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist',
+            '/model/tb3_1/odometry@nav_msgs/msg/Odometry[gz.msgs.Odometry',
+            '/model/tb3_1/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan',
+            '/model/tb3_1/imu@sensor_msgs/msg/Imu[gz.msgs.IMU',
         ],
         output='screen',
         remappings=[

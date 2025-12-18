@@ -1,13 +1,3 @@
-planner_server:
-  ros__parameters:
-    expected_planner_frequency: 5.0
-    planner_plugins: ["GridBased"]
-    GridBased:
-      plugin: "nav2_smac_planner/SmacPlanner2D"
-      tolerance: 0.5
-      downsample_costmap: false
-      allow_unknown: true
-
 amcl:
   ros__parameters:
     alpha1: 0.2
@@ -15,7 +5,7 @@ amcl:
     alpha3: 0.2
     alpha4: 0.2
     alpha5: 0.2
-    base_frame_id: "base_footprint"
+    base_frame_id: "base_link"
     beam_skip_distance: 0.5
     beam_skip_error_threshold: 0.9
     beam_skip_threshold: 0.3
@@ -97,6 +87,7 @@ bt_navigator:
 
 controller_server:
   ros__parameters:
+    cmd_vel_topic: /cmd_vel_nav
     controller_frequency: 20.0
     costmap_update_timeout: 0.30
     min_x_velocity_threshold: 0.001
@@ -119,9 +110,9 @@ controller_server:
     #  plugin: "nav2_controller::SimpleGoalChecker"
     #  xy_goal_tolerance: 0.25
     #  yaw_goal_tolerance: 0.25
-    #  stateful: True
+    #  stateful: true
     general_goal_checker:
-      stateful: True
+      stateful: true
       plugin: "nav2_controller::SimpleGoalChecker"
       xy_goal_tolerance: 0.25
       yaw_goal_tolerance: 0.25
@@ -242,21 +233,14 @@ local_costmap:
       resolution: 0.05
       robot_radius: 0.22
       plugins: ["voxel_layer", "inflation_layer"]
-      filters: ["keepout_filter"]
-      keepout_filter:
-        plugin: "nav2_costmap_2d::KeepoutFilter"
-        enabled: KEEPOUT_ZONE_ENABLED
-        filter_info_topic: "keepout_costmap_filter_info"
-        override_lethal_cost: True
-        lethal_override_cost: 200
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.70
       voxel_layer:
         plugin: "nav2_costmap_2d::VoxelLayer"
-        enabled: True
-        publish_voxel_map: True
+        enabled: true
+        publish_voxel_map: true
         origin_z: 0.0
         z_resolution: 0.05
         z_voxels: 16
@@ -272,8 +256,8 @@ local_costmap:
           #   * Use global topic `/scan` if you do not wish the node namespace to apply
           topic: scan
           max_obstacle_height: 2.0
-          clearing: True
-          marking: True
+          clearing: true
+          marking: true
           data_type: "LaserScan"
           raytrace_max_range: 3.0
           raytrace_min_range: 0.0
@@ -281,8 +265,8 @@ local_costmap:
           obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
-      always_send_full_costmap: True
+        map_subscribe_transient_local: true
+      always_send_full_costmap: true
       introspection_mode: "disabled"
 
 global_costmap:
@@ -296,21 +280,9 @@ global_costmap:
       resolution: 0.05
       track_unknown_space: true
       plugins: ["static_layer", "obstacle_layer", "inflation_layer"]
-      filters: ["keepout_filter", "speed_filter"]
-      keepout_filter:
-        plugin: "nav2_costmap_2d::KeepoutFilter"
-        enabled: KEEPOUT_ZONE_ENABLED
-        filter_info_topic: "keepout_costmap_filter_info"
-        override_lethal_cost: True
-        lethal_override_cost: 200
-      speed_filter:
-        plugin: "nav2_costmap_2d::SpeedFilter"
-        enabled: SPEED_ZONE_ENABLED
-        filter_info_topic: "speed_costmap_filter_info"
-        speed_limit_topic: "speed_limit"
       obstacle_layer:
         plugin: "nav2_costmap_2d::ObstacleLayer"
-        enabled: True
+        enabled: true
         observation_sources: scan
         scan:
           # A relative topic will be appended to the parent of the global_costmap namespace.
@@ -321,8 +293,8 @@ global_costmap:
           #   * Use global topic `/scan` if you do not wish the node namespace to apply
           topic: scan
           max_obstacle_height: 2.0
-          clearing: True
-          marking: True
+          clearing: true
+          marking: true
           data_type: "LaserScan"
           raytrace_max_range: 3.0
           raytrace_min_range: 0.0
@@ -330,12 +302,12 @@ global_costmap:
           obstacle_min_range: 0.0
       static_layer:
         plugin: "nav2_costmap_2d::StaticLayer"
-        map_subscribe_transient_local: True
+        map_subscribe_transient_local: true
       inflation_layer:
         plugin: "nav2_costmap_2d::InflationLayer"
         cost_scaling_factor: 3.0
         inflation_radius: 0.7
-      always_send_full_costmap: True
+      always_send_full_costmap: true
       introspection_mode: "disabled"
 
 # The yaml_filename does not need to be specified since it going to be set by defaults in launch.
@@ -346,38 +318,12 @@ map_server:
     # yaml_filename: ""
     introspection_mode: "disabled"
 
-keepout_filter_mask_server:
-  ros__parameters:
-    topic_name: "keepout_filter_mask"
-    # yaml_filename: ""
-
-keepout_costmap_filter_info_server:
-  ros__parameters:
-    type: 0
-    filter_info_topic: "keepout_costmap_filter_info"
-    mask_topic: "keepout_filter_mask"
-    base: 0.0
-    multiplier: 1.0
-
-speed_filter_mask_server:
-  ros__parameters:
-    topic_name: "speed_filter_mask"
-    # yaml_filename: ""
-
-speed_costmap_filter_info_server:
-  ros__parameters:
-    type: 1
-    filter_info_topic: "speed_costmap_filter_info"
-    mask_topic: "speed_filter_mask"
-    base: 100.0
-    multiplier: -1.0
-
 map_saver:
   ros__parameters:
     save_map_timeout: 5.0
     free_thresh_default: 0.25
     occupied_thresh_default: 0.65
-    map_subscribe_transient_local: True
+    map_subscribe_transient_local: true
     introspection_mode: "disabled"
 
 planner_server:
@@ -388,7 +334,7 @@ planner_server:
     costmap_update_timeout: 1.0
     introspection_mode: "disabled"
     GridBased:
-      plugin: "nav2_smac_planner/SmacPlanner2D"
+      plugin: "nav2_smac_planner::SmacPlanner2D"
       tolerance: 0.5
       use_astar: false
       allow_unknown: true
@@ -401,17 +347,17 @@ smoother_server:
       tolerance: 1.0e-10
       max_its: 1000
       refinement_num: 2
-      # True for Hybrid A* or State Lattice to not smooth over directional changes
-      enforce_path_inversion: True
-      do_refinement: True
+      # true for Hybrid A* or State Lattice to not smooth over directional changes
+      enforce_path_inversion: true
+      do_refinement: true
     route_smoother:
       plugin: "nav2_smoother::SimpleSmoother"
       tolerance: 1.0e-10
       max_its: 1000
       refinement_num: 5
-      # False for Route Server or others where smoothing out sharp corners is OK
-      enforce_path_inversion: False
-      do_refinement: True
+      # false for Route Server or others where smoothing out sharp corners is OK
+      enforce_path_inversion: false
+      do_refinement: true
 
 behavior_server:
   ros__parameters:
@@ -455,7 +401,7 @@ waypoint_follower:
     waypoint_task_executor_plugin: "wait_at_waypoint"
     wait_at_waypoint:
       plugin: "nav2_waypoint_follower::WaitAtWaypoint"
-      enabled: True
+      enabled: true
       waypoint_pause_duration: 200
 
 route_server:
@@ -484,7 +430,7 @@ route_server:
 velocity_smoother:
   ros__parameters:
     smoothing_frequency: 20.0
-    scale_velocities: False
+    scale_velocities: false
     feedback: "OPEN_LOOP"
     max_velocity: [0.5, 0.0, 2.0]
     min_velocity: [-0.5, 0.0, -2.0]
@@ -497,15 +443,15 @@ velocity_smoother:
 
 collision_monitor:
   ros__parameters:
-    enabled: True
-    base_frame_id: "base_footprint"
+    enabled: true
+    base_frame_id: "base_link"
     odom_frame_id: "odom"
-    cmd_vel_in_topic: "cmd_vel_smoothed"
-    cmd_vel_out_topic: "cmd_vel"
+    cmd_vel_in_topic: "cmd_vel_nav"
+    cmd_vel_out_topic: "cmd_vel_nav"
     state_topic: "collision_monitor_state"
     transform_tolerance: 0.2
     source_timeout: 1.0
-    base_shift_correction: True
+    base_shift_correction: true
     stop_pub_timeout: 2.0
     # Polygons represent zone around the robot for "stop", "slowdown" and "limit" action types,
     # and robot footprint for "approach" action type.
@@ -517,15 +463,15 @@ collision_monitor:
       time_before_collision: 1.2
       simulation_time_step: 0.1
       min_points: 6
-      visualize: False
-      enabled: True
+      visualize: false
+      enabled: true
     observation_sources: ["scan"]
     scan:
       type: "scan"
       topic: "scan"
       min_height: 0.15
       max_height: 2.0
-      enabled: True
+      enabled: true
 
 docking_server:
   ros__parameters:
@@ -583,7 +529,7 @@ docking_server:
 
 loopback_simulator:
   ros__parameters:
-    base_frame_id: "base_footprint"
+    base_frame_id: "base_link"
     odom_frame_id: "odom"
     map_frame_id: "map"
     scan_frame_id: "base_scan" # tb4_loopback_simulator.launch.py remaps to 'rplidar_link'

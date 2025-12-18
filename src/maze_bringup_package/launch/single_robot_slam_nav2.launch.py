@@ -23,17 +23,18 @@ def generate_launch_description():
             os.path.join(tb3_gazebo_share, "launch", "turtlebot3_world.launch.py")
         )
     )
-
-    # SLAM Toolbox
-    slam_share = get_package_share_directory("slam_toolbox")
-    slam_params = os.path.join(slam_share, "config", "mapper_params_online_async.yaml")
-    slam_node = Node(
-        package="slam_toolbox",
-        executable="async_slam_toolbox_node",
-        name="slam_toolbox",
+    
+    twist_converter = Node(
+        package="cmdvel_tools",
+        executable="twist_to_stamped",
+        name="twist_to_stamped",
         output="screen",
-        parameters=[slam_params, {"use_sim_time": use_sim_time}],
-        remappings=[("scan", "/scan")],
+        parameters=[
+            {"in_topic": "/cmd_vel_nav"},
+            {"out_topic": "/cmd_vel"},
+            {"frame_id": "base_link"},
+            {"use_sim_time": use_sim_time},
+        ],
     )
 
     # Nav2 bringup (SLAM mode: uses /map from slam_toolbox)
@@ -46,27 +47,26 @@ def generate_launch_description():
             "use_sim_time": use_sim_time,
             "slam": "True",
             "params_file": params_file,
+            "use_waypoint_follower": "True",
         }.items(),
     )
-
-    # Lifecycle manager for slam_toolbox 
-    lifecycle_manager_node = Node(
-        package="nav2_lifecycle_manager",
-        executable="lifecycle_manager",
-        name="lifecycle_manager_slam",
+    
+    ekf = Node(
+        package="robot_localization",
+        executable="ekf_node",
+        name="ekf_filter_node",
         output="screen",
-        parameters=[{
-            "use_sim_time": use_sim_time,
-            "autostart": True,
-            "node_names": ["slam_toolbox"],
-        }],
+        parameters=[
+            os.path.join(pkg_share, "config", "ekf.yaml"),
+            {"use_sim_time": use_sim_time},
+        ],
     )
 
     return LaunchDescription([
         declare_use_sim_time,
         declare_params_file,
         gazebo_launch,
-        slam_node,
+        ekf,
+        twist_converter,
         nav2_launch,
-        lifecycle_manager_node,
     ])

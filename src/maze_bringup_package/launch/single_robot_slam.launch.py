@@ -33,22 +33,8 @@ def generate_launch_description():
         parameters=[slam_params, {"use_sim_time": use_sim_time}],
     )
     
-    # Lifecycle manager to configure+activate slam_toolbox
-    lifecycle_manager_node = Node(
-        package='nav2_lifecycle_manager',
-        executable='lifecycle_manager',
-        name='lifecycle_manager_slam',
-        output='screen',
-        parameters=[{
-            'use_sim_time': use_sim_time,
-            'autostart': True,
-            'node_names': ['slam_toolbox'],
-        }],
-    )
-
     return LaunchDescription([
         declare_use_sim_time,
         gazebo_launch,
         slam_node,
-        lifecycle_manager_node,
     ])

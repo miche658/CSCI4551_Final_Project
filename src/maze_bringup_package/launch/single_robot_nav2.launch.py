@@ -21,7 +21,7 @@ def generate_launch_description():
 
     declare_params = DeclareLaunchArgument(
         "params_file",
-        default_value=os.path.join(pkg_share, "maps", "params_file.yaml"),
+        default_value=os.path.join(pkg_share, "config", "params.yaml"),
     )
 
     tb3_gazebo_share = get_package_share_directory("turtlebot3_gazebo")
@@ -38,7 +38,7 @@ def generate_launch_description():
         ),
         launch_arguments={
             "use_sim_time": use_sim_time,
-            "slam": "True",
+            "slam": "False",
             "map": map_yaml,
             "params_file": params_file,
         }.items(),

@@ -125,11 +125,19 @@ def generate_launch_description():
         }.items(),
     )
 
-    # Delayed Nav2 start to ensure Gazebo is ready
-    delayed_nav2_launch = TimerAction(
-        period=3.0,
-        actions=[nav2_launch],
+    explorer = Node(
+        package="maze_bringup_package",
+        executable="frontier_explorer",
+        output="screen",
+        parameters=[{"use_sim_time": use_sim_time}],
     )
+
+    # Delayed Nav2 and explorer start to ensure Gazebo is ready
+    delayed_nav2_launch = TimerAction(
+        period=12.0,
+        actions=[nav2_launch, explorer],
+    )
+    
 
     # ----------------------------
     # EKF (optional)

@@ -24,7 +24,7 @@ setup(
         (os.path.join('share', package_name, 'config'), glob('config/*')),
         (os.path.join('share', package_name, 'worlds'), glob('worlds/*')),
         (os.path.join('share', package_name, 'maps'), glob('maps/*')),
-        (os.path.join('share', package_name, 'models/turtlebot3_waffle'), glob('modles/turtlebot3_waffle/*'))
+        (os.path.join('share', package_name, 'models/turtlebot3_waffle'), glob('models/turtlebot3_waffle/*'))
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -32,4 +32,12 @@ setup(
     maintainer_email='vu000194@umn.edu',
     description='Bringup and launch files for the multi-robot maze project.',
     license='Apache-2.0',
+
+    tests_require=['pytest'],
+
+    entry_points={
+        'console_scripts': [
+            'frontier_explorer = maze_bringup_package.frontier_explorer:main',
+        ],
+    }
 )

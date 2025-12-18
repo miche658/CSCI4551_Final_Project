@@ -1,6 +1,6 @@
 slam_toolbox:
   ros__parameters:
-    scan_topic: scan
+    scan_topic: /scan
     odom_frame: odom
     map_frame: map
     base_frame: base_footprint
@@ -9,6 +9,7 @@ slam_toolbox:
     publish_tf_map: true
     publish_tf: true
     use_sim_time: true
+    max_laser_range: 3.5
 
 amcl:
   ros__parameters:
@@ -49,7 +50,7 @@ amcl:
     z_max: 0.05
     z_rand: 0.5
     z_short: 0.05
-    scan_topic: scan
+    scan_topic: /scan
 
 bt_navigator:
   ros__parameters:
@@ -266,7 +267,7 @@ local_costmap:
           #   * User chosen topic is `scan`.
           #   * Topic will be remapped to `/tb4/scan` without `local_costmap`.
           #   * Use global topic `/scan` if you do not wish the node namespace to apply
-          topic: scan
+          topic: /scan
           max_obstacle_height: 2.0
           clearing: true
           marking: true
@@ -288,6 +289,10 @@ global_costmap:
       publish_frequency: 1.0
       global_frame: map
       robot_base_frame: base_footprint
+
+      rolling_window: true 
+      width: 20
+      height: 20
       robot_radius: 0.22
       resolution: 0.05
       track_unknown_space: true
@@ -303,7 +308,7 @@ global_costmap:
           #   * User chosen topic is `scan`.
           #   * Topic will be remapped to `/tb4/scan` without `global_costmap`.
           #   * Use global topic `/scan` if you do not wish the node namespace to apply
-          topic: scan
+          topic: /scan
           max_obstacle_height: 2.0
           clearing: true
           marking: true

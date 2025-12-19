@@ -15,16 +15,10 @@ setup(
         ('share/' + package_name, ['package.xml']),
         # Launch / config / worlds
         (os.path.join('share', package_name, 'launch'), glob('launch/*.py')),
-        ('share/' + package_name + '/launch', [
-            'launch/single_robot_launch.py',
-        ]),
-        ('share/' + package_name + '/launch', [
-            'launch/single_robot_slam.launch.py',
-        ]),
         (os.path.join('share', package_name, 'config'), glob('config/*')),
         (os.path.join('share', package_name, 'worlds'), glob('worlds/*')),
         (os.path.join('share', package_name, 'maps'), glob('maps/*')),
-        (os.path.join('share', package_name, 'models/turtlebot3_waffle'), glob('models/turtlebot3_waffle/*'))
+        (os.path.join('share', package_name, 'rviz'), glob('rviz/*')),
     ],
     install_requires=['setuptools'],
     zip_safe=True,
@@ -38,6 +32,7 @@ setup(
     entry_points={
         'console_scripts': [
             'frontier_explorer = maze_bringup_package.frontier_explorer:main',
+            "initialpose_pub = maze_bringup_package.initialpose_pub:main",
         ],
     }
 )

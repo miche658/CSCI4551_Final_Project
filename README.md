@@ -2,20 +2,16 @@
 
 ## Overview
 
-This project implements a cooperative multi-robot navigation system using ROS 2 and the Nav2 navigation stack.
+This project implements a cooperative multi-robot navigation system using ROS 2.
 Two TurtleBot-style robots autonomously explore and solve a maze in the Gazebo simulation environment.
 The robots build a shared map using SLAM and coordinate their exploration to avoid redundant work.
 
 ## System Architecture
 
-- ROS 2 Humble
-
-- Gazebo simulation
-
+- ROS 2 Jazzy
+- Gazebo Sim (gz-sim) + ros_gz_bridge
+- turtlebot3 packages (model + description)
 - SLAM Toolbox for mapping
-
-- Nav2 for global A* path planning and local obstacle avoidance
-
 - Custom coordination node for multi-robot task allocation
 
 ## Repository Structure
@@ -26,34 +22,33 @@ src/
 ├── robot_description/ # URDF and sensor configuration
 ├── multirobot_bringup/ # Launch files for multi-robot Nav2
 ├── coordination_node/ # Custom ROS 2 node for task assignment
+├── 
 ```
 
 ## Requirements
-
 - Ubuntu 22.04
-
-- ROS 2 Humble
-
-- Gazebo (compatible with Humble)
-
-- Nav2
-
+- ROS 2 Jazzy
+- Gazebo
 - SLAM Toolbox
 
-## Build Instructions
+## Workspace build
+From the workspace root:
 
-```
-source /opt/ros/humble/setup.bash
-colcon build
+```bash
+cd CSCI4551_Final_Project
+source /opt/ros/jazzy/setup.bash
+colcon build --symlink-install
 source install/setup.bash
 ```
 
-Running the Project
-Launch Single Robot (Testing)
+## Build Instructions
+
+Run (single robot + SLAM + frontier explorer)
+
+Launch the maze world + robot + bridges + slam_toolbox + RViz + explorer:
 
 ```
-pkill -f "gz sim" || true
-ros2 launch multirobot_bringup single_robot.launch.py
+ros2 launch maze_bringup_package launch_world.py
 ```
 
 Launch Two Robots
@@ -68,23 +63,15 @@ Run Coordination Node
 ros2 run coordination_node coordinator
 ```
 
-Showing the map
-Run in separate terminal
-```
-rviz2
-```
-then add by topic, map and laser scan
 ## Features
 
 - Autonomous SLAM based mapping
 
-- Nav2 global planning using built in A*
+- Custom Navigation with A*
 
-- Local obstacle avoidance with costmaps
+- Local obstacle avoidance
 
-- Dynamic obstacle handling in Gazebo
-
-- Medium level multi-robot coordination
+- Multi-robot coordination
 
 ## Group 11 Team Members
 
@@ -92,12 +79,7 @@ then add by topic, map and laser scan
 
 - Martin Michelli
 
-- Daniel Vu, Computer Science
+- Daniel Vu
 
 ## Future Work
 
-- True multi-robot SLAM with map merging
-
-- Advanced frontier based task allocation
-
-- Learning based navigation improvements

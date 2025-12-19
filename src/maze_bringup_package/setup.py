@@ -38,6 +38,7 @@ setup(
     entry_points={
         'console_scripts': [
             'frontier_explorer = maze_bringup_package.frontier_explorer:main',
+	    'frontier_coordinator = maze_bringup_package.frontier_coordinator:main',
         ],
     }
 )

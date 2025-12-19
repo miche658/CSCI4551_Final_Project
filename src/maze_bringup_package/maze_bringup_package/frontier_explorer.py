@@ -31,10 +31,22 @@ class FrontierExplorer(Node):
         self.declare_parameter("replan_period_sec", 3.0)
         self.declare_parameter("goal_tolerance_m", 0.35)
 
+        self.declare_parameter("map_frame", "map")
+        self.declare_parameter("base_frame", "base_footprint")
+
+        self.map_frame = self.get_parameter("map_frame").value
+        self.base_frame = self.get_parameter("base_frame").value
+
         map_topic = self.get_parameter("map_topic").value
         self.sub = self.create_subscription(OccupancyGrid, map_topic, self.on_map, 10)
 
         self.goal_pub = self.create_publisher(PoseStamped, self.get_parameter("goal_topic_debug").value, 10)
+
+        ns = self.get_namespace()  # "/tb3_0" or "/tb3_1"
+        self.proposal_pub = self.create_publisher(PoseStamped, f"{ns}/frontier/proposal", 10)
+        self.approved_sub = self.create_subscription(PoseStamped, f"{ns}/frontier/approved", self.on_approved, 10)
+        self.pending_goal = None
+
 
         self.nav = BasicNavigator()
         self.nav.waitUntilNav2Active(localizer='slam_toolbox')
@@ -44,7 +56,6 @@ class FrontierExplorer(Node):
         
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
-        self.base_frame = "base_footprint"   
         self.timer = self.create_timer(self.get_parameter("replan_period_sec").value, self.tick)
 
     def on_map(self, msg: OccupancyGrid):
@@ -69,9 +80,13 @@ class FrontierExplorer(Node):
             self.get_logger().info("No frontiers found. Exploration complete or map not updating.")
             return
 
-        self.last_goal = goal
-        self.goal_pub.publish(goal)
-        self.nav.goToPose(goal)
+        # Don't spam proposals while waiting for approval
+        if self.pending_goal is not None:
+            return
+
+        self.pending_goal = goal
+        self.proposal_pub.publish(goal)
+
 
     def compute_best_frontier_goal(self):
         m = self.map
@@ -117,7 +132,7 @@ class FrontierExplorer(Node):
         # Get robot pose in map frame
         try:
             tf = self.tf_buffer.lookup_transform(
-                "map", self.base_frame, rclpy.time.Time()
+                self.map_frame, self.base_frame, rclpy.time.Time()
             )
             rx = tf.transform.translation.x
             ry = tf.transform.translation.y
@@ -157,12 +172,26 @@ class FrontierExplorer(Node):
             return None
 
         goal = PoseStamped()
-        goal.header.frame_id = "map"
+        goal.header.frame_id = self.map_frame
         goal.header.stamp = self.get_clock().now().to_msg()
         goal.pose.position.x = float(best[0])
         goal.pose.position.y = float(best[1])
         goal.pose.orientation.w = 1.0
         return goal
+
+    def on_approved(self, goal: PoseStamped):
+        # Don't interrupt if Nav2 is already driving
+        if self.nav.isTaskComplete() is False:
+            return
+
+        self.last_goal = goal
+        self.pending_goal = None
+
+        # Debug publish (optional but nice)
+        self.goal_pub.publish(goal)
+
+        # Now actually drive
+        self.nav.goToPose(goal)
 
 def main():
     rclpy.init()

@@ -31,7 +31,7 @@ def generate_launch_description():
     ros_gz_sim = get_package_share_directory('ros_gz_sim')
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
-    x_pose = LaunchConfiguration('x_pose', default='-6.0')
+    x_pose = LaunchConfiguration('x_pose', default='-6.5')
     y_pose = LaunchConfiguration('y_pose', default='-4.5')
 
     world = os.path.join(
@@ -74,7 +74,7 @@ def generate_launch_description():
     set_env_vars_resources = AppendEnvironmentVariable(
             'GZ_SIM_RESOURCE_PATH',
             os.path.join(
-                get_package_share_directory('turtlebot3_gazebo'),
+                get_package_share_directory('maze_bringup_package'),
                 'models'))
 
     ld = LaunchDescription()

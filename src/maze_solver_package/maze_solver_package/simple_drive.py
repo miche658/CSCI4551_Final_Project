@@ -9,14 +9,14 @@ class SimpleForward(Node):
     def __init__(self):
         super().__init__('simple_forward')
         
-        # Create publisher for velocity commands using TwistStamped
+        # Create publisher for velocity commands w/ TwistStamped
         self.velocity_publisher = self.create_publisher(
             TwistStamped,
             'cmd_vel',
             10
         )
         
-        # Create a timer that publishes velocity commands at 10 Hz
+        # Publish velocity commands at 10 Hz:
         self.timer = self.create_timer(0.1, self.move_forward)
         
         self.get_logger().info('Simple Forward node active')
@@ -25,11 +25,9 @@ class SimpleForward(Node):
         """Publish velocity command to move the robot forward"""
         msg = TwistStamped()
         
-        # Set timestamp
         msg.header.stamp = self.get_clock().now().to_msg()
         msg.header.frame_id = 'base_link'
         
-        # Set linear velocity (forward motion)
         msg.twist.linear.x = 0.2  # meters per second
         msg.twist.linear.y = 0.0
         msg.twist.linear.z = 0.0
@@ -39,7 +37,6 @@ class SimpleForward(Node):
         msg.twist.angular.y = 0.0
         msg.twist.angular.z = 0.0
         
-        # Publish velocity command
         self.velocity_publisher.publish(msg)
 
 

@@ -16,35 +16,34 @@ class WallFollower(Node):
         front = min(msg.ranges[0:15] + msg.ranges[-15:])
         right = min(msg.ranges[265:275])
         
-        # Create velocity command
         vel_msg = TwistStamped()
         vel_msg.header.stamp = self.get_clock().now().to_msg()
         vel_msg.header.frame_id = 'base_link'
         
-        # Very tight wall following parameters
-        target_dist = 0.18  # Much closer to wall
+        # Follow the wall tightly!
+        target_dist = 0.18
         speed = 0.20
-        turn_rate = 1.2  # Sharper turns
+        turn_rate = 1.2
         
-        # Control logic
+        # Control logic:
         if front < 0.35:
-            # Turn left when obstacle ahead - slow down more
+            # Turn left when there's an obstacle ahead
             vel_msg.twist.linear.x = 0.03
             vel_msg.twist.angular.z = turn_rate * 1.1
         elif right < 0.15:
-            # Too close - veer left
+            # Too close (go a little left)
             vel_msg.twist.linear.x = speed * 0.5
             vel_msg.twist.angular.z = turn_rate * 0.6
         elif right > 0.35:
-            # Too far - turn right to find wall
+            # Too far (find a wall)
             vel_msg.twist.linear.x = speed * 0.8
             vel_msg.twist.angular.z = -turn_rate * 0.8
         elif right > target_dist + 0.03:
-            # Drifting away - turn right
+            # Drifting away (turn right)
             vel_msg.twist.linear.x = speed * 0.9
             vel_msg.twist.angular.z = -turn_rate * 0.5
         else:
-            # Good - go straight
+            # Good!
             vel_msg.twist.linear.x = speed
             vel_msg.twist.angular.z = 0.0
         
